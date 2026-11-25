@@ -23,22 +23,23 @@ if (!$cookie) {
 ?>
 
 
- <?php include('template/head.php') ?>
- <?php include('partials/nav.php')?>
 
+<?php include('template/head.php'); ?>
+<?php include('partials/nav.php'); ?>
 
- <div class="container">
-    <br>
-    <br>
-     <a href="index.php">home</a>
+<div class="container">
+    <h1><?php echo htmlspecialchars($cookie['name']); ?></h1>
 
-     <div class="my-center">
-
-         <div>
-            <h1><?php echo htmlspecialchars($cookie['name'])?></h1>
-         <p><?php echo htmlspecialchars($cookie['discription'])?></p>
-         </div>
+    <div class="card">
+        <div class="card-content">
+            <p><strong>Description:</strong> <?php echo htmlspecialchars($cookie['discription']); ?></p>
+            <p><strong>Ingredients:</strong> <?php echo htmlspecialchars($cookie['ingridient']); ?></p>
+        </div>
     </div>
+
+    <a class="btn waves-effect waves-light deep-orange" href="index.php">
+        <i class="fa-solid fa-arrow-left"></i> Back
+    </a>
 </div>
 
- <?php include('template/footer.php') ?>
+<?php include('template/footer.php'); ?>

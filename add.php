@@ -1,79 +1,74 @@
-<?php 
+<?php
+include('config/db.php');
 
- include('config/db.php');
+$errors = ['name' => '', 'description' => '', 'ingridient' => ''];
+$name = $description = $ingridient = '';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name        = trim($_POST['name'] ?? '');
+    $description = trim($_POST['description'] ?? '');
+    $ingridient  = trim($_POST['ingridient'] ?? '');
 
-    $errors = ['ingridient'=>'', 'name' =>'', 'description' =>''];
+    if ($name === '')        $errors['name']        = 'Please enter name';
+    if ($description === '') $errors['description'] = 'Please enter description';
+    if ($ingridient === '')  $errors['ingridient']  = 'Please enter ingredients';
 
-    $name = '';
-    $ingridient = '';
-    $description = '';
+    if (!array_filter($errors)) {
+        $name        = mysqli_real_escape_string($conn, $name);
+        $description = mysqli_real_escape_string($conn, $description);
+        $ingridient  = mysqli_real_escape_string($conn, $ingridient);
 
+        $sql = "INSERT INTO cookies (name, description, ingridient)
+                VALUES ('$name', '$description', '$ingridient')";
 
-
-        if (isset($_POST['submit'])) {
-
-            $name = $_POST['name'];
-            $ingridient = $_POST['ingridient'];
-            $description = $_POST['description'];
-
-            if (empty($_POST['name']) ) {
-                $errors["name"]= "please enter name";
-            }
-
-            if (empty($_POST['description']) ) {
-                $errors["description"]= "please enter description";
-            }
-
-            if (empty($_POST['ingridient']) ) {
-                $errors["ingridient"]= "please enter ingridient";
-            }
-           
-
-        // all items present
-
-        if (!array_filter($errors)) {
-          $name =   mysqli_real_escape_string($conn, $_POST['name']);
-          $description =   mysqli_real_escape_string($conn, $_POST['description']);
-          $ingridient =  mysqli_real_escape_string($conn, $_POST['ingridient']);
-
-
-          $sql = "INSERT INTO cookies (name, discription, ingridient)
-          VALUES ('$name', '$description', '$ingridient')";
+        if (mysqli_query($conn, $sql)) {
+            header('Location: index.php');
+            exit;
+        } else {
+            echo 'Query error: ' . mysqli_error($conn);
         }
-
-        if(mysqli_query($conn, $sql)){
-            echo 'Qeury done';
-        }else{
-            echo 'Query error: '. mysqli_error($conn);
-        }
+    }
 }
 
+$pageTitle = 'Add Cookie';
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
+<?php include('template/head.php'); ?>
+<body>
 
-<?php include('template/head.php')?>
-<?php include('partials/nav.php')?>
+<?php include('partials/nav.php'); ?>
 
+<div class="container">
+    <h1>Add Cookie</h1>
 
-<div class="my-center mt-60">
-  
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
 
-    <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST">
+        <div class="input-field">
+            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>">
+            <label for="name" class="<?php echo $name ? 'active' : ''; ?>">Cookie name</label>
+            <span class="red-text"><?php echo $errors['name']; ?></span>
+        </div>
 
-        <p class="text-danger"> <?php echo $errors['name'] ?> </p> <br>
-        <input class="my-input" type="text" placeholder="enter cookie name" name="name" value= "<?php echo htmlspecialchars($name) ?>"> <br>
-        <p class="text-danger"> <?php echo $errors['description'] ?> </p> <br>
-        <input class="my-input" type="text" placeholder="enter Description" name="description" value= "<?php echo htmlspecialchars($description) ?>"> <br>
-        
-        <p class="text-danger"> <?php echo $errors['ingridient'] ?> </p>  <br>
-        <input class="my-input" type="text" placeholder="enter ingridient" name="ingridient" value= "<?php echo htmlspecialchars($ingridient) ?>"> <br>
+        <div class="input-field">
+            <input type="text" id="description" name="description" value="<?php echo htmlspecialchars($description); ?>">
+            <label for="description" class="<?php echo $description ? 'active' : ''; ?>">Description</label>
+            <span class="red-text"><?php echo $errors['description']; ?></span>
+        </div>
 
-        <input class="my-input" type="submit" value="submit" name="submit">
-        
+        <div class="input-field">
+            <input type="text" id="ingridient" name="ingridient" value="<?php echo htmlspecialchars($ingridient); ?>">
+            <label for="ingridient" class="<?php echo $ingridient ? 'active' : ''; ?>">Ingredients</label>
+            <span class="red-text"><?php echo $errors['ingridient']; ?></span>
+        </div>
+
+        <button class="btn waves-effect waves-light deep-orange" type="submit">
+            Submit <i class="fa-solid fa-paper-plane"></i>
+        </button>
     </form>
 </div>
 
-<?php include('template/footer.php')?>
-
+<?php include('template/footer.php'); ?>
+</body>
 </html>
