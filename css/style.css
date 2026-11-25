@@ -1,0 +1,105 @@
+body{
+    background-color: aqua;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+.header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.header a{
+    color: black;
+}
+
+.links ul{
+    display: flex;
+}
+
+.links ul li {
+    list-style-type: none;
+    margin-left: 20px;
+}
+.links ul li a:hover{
+    color: brown;
+}
+
+.btn{
+    padding: 10px 12px;
+    border-radius: 8px;
+    background-color: brown;
+    color: aliceblue !important;
+}
+
+form {
+    border: 1px solid #c02929;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.text-danger{
+    color: #c02929;
+    padding: 0;
+    height: 1px;
+}
+
+.my-center{
+    display: flex;
+    justify-content: center;
+}
+
+.mt-60{
+margin-top: 60px;
+}
+.my-input{
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    border: none;
+}
+.my-input:focus{
+    outline: none;
+}
+
+.container{
+    margin: auto 10%;
+}
+
+.my-row{
+    display: flex;
+    /* grid-template-columns: repeat(2, 1fr); */
+}
+
+.card{
+    border: 1px solid red;
+    margin-right: 40px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.card-body{
+    margin: 100px 0; 
+}
+
+.card-footer a{
+    background-color: #c02929;
+    padding: 10px;
+    border-radius: 9px;
+    text-align: center;
+    color: #fff;
+}
+
+.my-center{
+    margin-top: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
